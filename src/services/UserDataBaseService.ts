@@ -13,7 +13,6 @@ class UserDataBaseService {
       return null;
     }
   }
-
   async insertDBUser(user: Prisma.UserCreateInput) {
     try {
       const newuser = await prisma.user.create({
@@ -25,7 +24,6 @@ class UserDataBaseService {
       return null;
     }
   }
-
   async updateDBUser(user: Prisma.UserUpdateInput, id: number) {
     try {
       const updatedUser = await prisma.user.update({
@@ -40,7 +38,6 @@ class UserDataBaseService {
       return null;
     }
   }
-
   async deleteDBUser(id: number) {
     try {
       await prisma.user.delete({
@@ -55,5 +52,5 @@ class UserDataBaseService {
     }
   }
 }
-
 export default new UserDataBaseService();
+

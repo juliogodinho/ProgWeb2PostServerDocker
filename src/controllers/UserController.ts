@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import UserDataBaseService from "../services/UserDataBaseService";
+import { generateHash } from "../utils/BcryptUtils";
 
 class UserController {
   constructor() {}
@@ -24,10 +25,20 @@ class UserController {
     const body = req.body;
     console.log(body);
 
-    if (!body.email || !body.name) {
+    if (!body.email || !body.name || !body.password) {
       res.json({
         status: "error",
         message: "Falta parâmetros",
+      });
+      return;
+    }
+
+    const hashPassword = await generateHash(body.password);
+
+    if(!hashPassword){
+      res.json({
+        status: "error",
+        message: "Erro ao criptografar senha ...",
       });
     }
 
@@ -35,6 +46,7 @@ class UserController {
       const newuser = await UserDataBaseService.insertDBUser({
         name: body.name,
         email: body.email,
+        password: hashPassword as string
       });
       res.json({
         status: "ok",
@@ -111,5 +123,4 @@ class UserController {
     }
   }
 }
-
 export default new UserController();
