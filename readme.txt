@@ -1,9 +1,9 @@
 Você pode gerenciar melhor os containers docker instalando o docker desktop.
 Abra o terminal do computador.
 execute os comandos:
-cd C:\Users\julio\ProgWeb2PostServer
+cd C:\Users\julio\ProgWeb2PostServerDocker
 
-(onde está o caminho C:\Users\julio\ProgWeb2PostServer mude para o local onde está a pasta ProgWeb2PostServer no seu computador)
+(onde está o caminho C:\Users\julio\ProgWeb2PostServerDocker mude para o local onde está a pasta ProgWeb2PostServerDocker no seu computador)
 
 docker build -t progweb2 .
 docker run -p 3000:3000 progweb2
