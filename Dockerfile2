@@ -1,0 +1,10 @@
+FROM mysql:8.0
+ENV MYSQL_DATABASE=phprs
+ENV MYSQL_ROOT_PASSWORD=phprs
+COPY ./src /src
+# RUN apt-get update && apt-get install -y nodejs npm
+RUN npm install
+RUN npx prisma generate
+RUN npx tsc
+RUN npm run dev
+CMD ["mysqld"]

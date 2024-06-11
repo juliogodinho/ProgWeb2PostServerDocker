@@ -1,0 +1,31 @@
+version: "3"
+services:
+  api:
+    build: .
+    ports:
+      - "8080:80"
+      - "443:443"
+    volumes:
+      - C:\Users\julio\ProgWeb2PostServer\src:/src
+    links:
+      - db
+
+  db:
+    #image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+      - C:\Users\julio\ProgWeb2PostServer\prisma\migrations\20240528171655_change_user_model:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_ROOT_PASSWORD=phprs
+      - MYSQL_DATABASE=phprs
+
+  portainer:
+    image: portainer/portainer
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: -H unix:///var/run/docker.sock
+
+volumes:
+  db_data:
