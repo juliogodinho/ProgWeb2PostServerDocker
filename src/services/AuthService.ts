@@ -32,15 +32,15 @@ class AuthService {
             return null;
         }
     }
-
+    
     async signUp(user: Prisma.UserCreateInput) {
         try {
             if(user.password != undefined){
-                const hashedPassword = await bcrypt.hash(user.password, 10);
+                const hashPassword = await bcrypt.hash(user.password, 10);
                 const newUser = await prisma.user.create({
                     data: {
                         ...user,
-                        password: hashedPassword,
+                        password: hashPassword,
                     },
                 });
             return newUser;
