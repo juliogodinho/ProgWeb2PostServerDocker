@@ -1,3 +1,8 @@
+npm install
+npm audit fix
+npm install prisma --save-dev
+npx prisma generate
+
 Você pode gerenciar melhor os containers docker instalando o docker desktop.
 Abra o terminal do computador.
 execute os comandos:
