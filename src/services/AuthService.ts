@@ -51,6 +51,17 @@ class AuthService {
         }
     }
 
+    async findUserByEmail(email: string) {
+        try {
+          return await prisma.user.findUnique({
+            where: { email },
+          });
+        } catch (error) {
+          console.error('Error finding user by email:', error);
+          throw error;
+        }
+      }
+
     async signOut() {
         // A implementação de signOut geralmente depende do front-end,
         // onde o token é simplesmente removido do armazenamento local.

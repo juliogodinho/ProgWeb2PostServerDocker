@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import AuthService from "../services/AuthService";
 import { generateHash } from "../utils/BcryptUtils";
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 
 class AuthController {
@@ -45,9 +47,41 @@ class AuthController {
         }
     }
 
-    async signIn() {
-
-    }
+    async signIn(req: Request, res: Response) {
+        const { email, password } = req.body;
+    
+        if (!email || !password) {
+          return res.status(400).json({
+            status: "error",
+            message: "Falta parâmetros",
+          });
+        }
+    
+        try {
+          const user = await AuthService.findUserByEmail(email);
+    
+          if (!user || !(await bcrypt.compare(password, user.password))) {
+            return res.status(401).json({
+              status: "error",
+              message: "Credenciais inválidas",
+            });
+          }
+    
+          const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET || "", {
+            expiresIn: "1h",
+          });
+    
+          res.json({
+            status: "ok",
+            token,
+          });
+        } catch (error: any) {
+          res.status(500).json({
+            status: "error",
+            message: error.message,
+          });
+        }
+      }
 
     async signOut() {
 
